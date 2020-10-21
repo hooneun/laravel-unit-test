@@ -57,17 +57,19 @@ class BookReservationTest extends TestCase
 
         $book = Book::first();
 
-        $response = $this->patch('/books/' . $book->id, [
+        $requests = [
             'title' => 'New Title',
             'author' => 'Victor',
-        ]);
+        ];
+
+        $response = $this->patch('/books/' . $book->id, $requests);
 
         $resBook = $response->json()['book'];
         $updatedBook = Book::find($resBook['id']);
 
-        $this->assertEquals('New Title', $resBook['title']);
-        $this->assertEquals('Victor', $resBook['author']);
-        $this->assertEquals('New Title', $updatedBook->title);
-        $this->assertEquals('Victor', $updatedBook->author);
+        $this->assertEquals($requests['title'], $resBook['title']);
+        $this->assertEquals($requests['author'], $resBook['author']);
+        $this->assertEquals($requests['title'], $updatedBook->title);
+        $this->assertEquals($requests['author'], $updatedBook->author);
     }
 }

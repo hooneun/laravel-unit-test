@@ -2,19 +2,20 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Book extends Model
+class Author extends Model
 {
     use HasFactory;
 
     protected $guarded = [];
 
-    public function setAuthorAttribute($author)
+    protected $dates = ['dob'];
+
+    public function setDobAttribute($dob)
     {
-        $this->attributes['author_id'] = Author::firstOrCreate([
-            'name' => $author,
-        ]);
+        $this->attributes['dob'] = Carbon::parse($dob);
     }
 }
